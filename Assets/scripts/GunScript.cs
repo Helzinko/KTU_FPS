@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunScript : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GunScript : MonoBehaviour
     public GameObject lightPlace;
 
     private float nextFire;
+    private float nextReload;
 
     Animator m_Animator;
 
@@ -26,94 +28,93 @@ public class GunScript : MonoBehaviour
     private Rigidbody player;
     private float speed = 10;
 
-    //private void Start()
-    //{
-    //    laserLine = GetComponent<LineRenderer>();
-    //    m_Animator = gameObject.GetComponent<Animator>();
-    //}
+    public int bulletCount = 6;
+    public float realoadTime = 0.5f;
 
+    public Text bulletCountText;
 
-
-    void Start()
+    private void Start()
     {
-        player = GetComponent<Rigidbody>();
+        laserLine = GetComponent<LineRenderer>();
+        m_Animator = gameObject.GetComponent<Animator>();
     }
 
+
+
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && bulletCount > 0 && Time.time > nextReload)
         {
-            Move();
+            bulletCount--;
+            nextFire = Time.time + fireRate;
+            StartCoroutine(ShotEffect());
+            Shoot();
+            bulletCountText.text = bulletCount.ToString();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && Time.time > nextReload)
+        {
+            Reload();
+            nextReload = Time.time + realoadTime;
+            bulletCountText.text = bulletCount.ToString();
         }
     }
 
-    private void Move()
+    void Shoot()
     {
-        player.velocity = transform.right * speed;
+        muzzleFlash.Play();
+        m_Animator.SetTrigger("Shoot");
+
+        GameObject fireLamp = Instantiate(fireLight, new Vector3(lightPlace.transform.position.x, lightPlace.transform.position.y, lightPlace.transform.position.z), Quaternion.identity);
+        Destroy(fireLamp, 0.1f);
+
+        RaycastHit hit;
+        laserLine.SetPosition(0, bulletHole.transform.position);
+
+        Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        {
+            //target targetHit = hit.transform.GetComponent<target>();
+            enemy enemeyHit = hit.transform.root.GetComponent<enemy>();
+
+            laserLine.SetPosition(1, hit.point);
+
+            if (enemeyHit != null)
+            {
+                enemeyHit.GotHit();
+
+            }
+
+
+            // hit effect
+            GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGo, 2f);
+
+            if (hit.rigidbody != null)
+            {
+                if (hit.transform.root.tag == "enemy")
+                    hit.rigidbody.AddForce(-hit.normal * impactForce * 25);
+                else hit.rigidbody.AddForce(-hit.normal * impactForce);
+            }
+        }
+        else
+        {
+            laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
+        }
     }
 
-
-
-        //// Update is called once per frame
-        //void Update()
-        //{DDD
-        //    if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
-        //    {
-        //        nextFire = Time.time + fireRate;
-        //        StartCoroutine(ShotEffect());
-        //        Shoot();
-        //    }
-        //}
-
-        //void Shoot()
-        //{
-        //    muzzleFlash.Play();
-        //    m_Animator.SetTrigger("Shoot");
-
-        //    GameObject fireLamp = Instantiate(fireLight, new Vector3(lightPlace.transform.position.x, lightPlace.transform.position.y, lightPlace.transform.position.z), Quaternion.identity);
-        //    Destroy(fireLamp, 0.1f);
-
-        //    RaycastHit hit;
-        //    laserLine.SetPosition(0, bulletHole.transform.position);
-
-        //    Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-
-        //    if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-        //    {
-        //        //target targetHit = hit.transform.GetComponent<target>();
-        //        enemy enemeyHit = hit.transform.root.GetComponent<enemy>();
-
-        //        laserLine.SetPosition(1, hit.point);
-
-        //        if (enemeyHit != null)
-        //        {
-        //            enemeyHit.GotHit();
-
-        //        }
-
-
-        //        // hit effect
-        //        GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-        //        Destroy(impactGo, 2f);
-
-        //        if(hit.rigidbody != null)
-        //        {
-        //            if (hit.transform.root.tag == "enemy")
-        //                hit.rigidbody.AddForce(-hit.normal * impactForce * 25);
-        //            else hit.rigidbody.AddForce(-hit.normal * impactForce);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
-        //    }
-        //}
-
-        private IEnumerator ShotEffect()
+    private IEnumerator ShotEffect()
     {
         laserLine.enabled = true;
         yield return shotDuration;
         laserLine.enabled = false;
     }
-
+    
+    private void Reload()
+    {
+        bulletCount = 6;
+        m_Animator.SetTrigger("Reload");
+    }
 }
