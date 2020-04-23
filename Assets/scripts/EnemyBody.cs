@@ -20,6 +20,10 @@ public class EnemyBody : MonoBehaviour
 
     bool sawPlayer = false;
 
+    public ParticleSystem muzzleFlash;
+    public GameObject lightPlace;
+    public GameObject fireLight;
+
     void Start()
     {
         parent = transform.parent.gameObject;
@@ -60,6 +64,11 @@ public class EnemyBody : MonoBehaviour
                 {
                     if (objectHit.transform.tag == "Player")
                     {
+                        //effects
+                        muzzleFlash.Play();
+                        GameObject fireLamp = Instantiate(fireLight, new Vector3(lightPlace.transform.position.x, lightPlace.transform.position.y, lightPlace.transform.position.z), Quaternion.identity);
+                        Destroy(fireLamp, 0.1f);
+                        //
                         sawPlayer = true;
                         nextFire = Time.time + fireRate;
                         GameObject newProjectile = Instantiate(bullet, bulletHole.transform.position, transform.rotation);
