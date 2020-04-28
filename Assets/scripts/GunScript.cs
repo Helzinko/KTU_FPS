@@ -39,13 +39,17 @@ public class GunScript : MonoBehaviour
         m_Animator = gameObject.GetComponent<Animator>();
     }
 
-
+    public bool canSwap = true;
 
     // Update is called once per frame
     void Update()
     {
+        if (Time.time > nextReload && Time.time > nextFire)
+            canSwap = true;
+
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire && bulletCount > 0 && Time.time > nextReload)
         {
+            canSwap = false;
             bulletCount--;
             nextFire = Time.time + fireRate;
             StartCoroutine(ShotEffect());
@@ -55,6 +59,7 @@ public class GunScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > nextReload)
         {
+            canSwap = false;
             Reload();
             nextReload = Time.time + realoadTime;
             bulletCountText.text = bulletCount.ToString();
