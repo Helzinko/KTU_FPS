@@ -8,7 +8,7 @@ public class EnemyBody : MonoBehaviour
     GameObject player;
     GameObject parent;
 
-    public float seeDistance = 30;
+    public float seeDistance = 60;
 
     public float bulletSpeed = 100;
 
@@ -65,7 +65,7 @@ public class EnemyBody : MonoBehaviour
                     if (objectHit.transform.tag == "Player")
                     {
                         //effects
-                        muzzleFlash.Play();
+                        //muzzleFlash.Play();
                         GameObject fireLamp = Instantiate(fireLight, new Vector3(lightPlace.transform.position.x, lightPlace.transform.position.y, lightPlace.transform.position.z), Quaternion.identity);
                         Destroy(fireLamp, 0.1f);
                         //
