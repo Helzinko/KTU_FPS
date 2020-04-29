@@ -8,9 +8,9 @@ public class EnemyBody : MonoBehaviour
     GameObject player;
     GameObject parent;
 
-    public float seeDistance = 60;
+    public float seeDistance =200;
 
-    public float bulletSpeed = 100;
+    public float bulletSpeed = 300;
 
     public GameObject bullet;
     public GameObject bulletHole;
@@ -24,10 +24,13 @@ public class EnemyBody : MonoBehaviour
     public GameObject lightPlace;
     public GameObject fireLight;
 
+    Animator anim;
+
     void Start()
     {
         parent = transform.parent.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
+        anim = parent.gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -35,8 +38,11 @@ public class EnemyBody : MonoBehaviour
     {
         if (!parent.GetComponent<enemy>().isDead)
         {
-            //if (sawPlayer)
-                //GetComponent<NavMeshAgent>().destination = player.transform.position;
+            if (sawPlayer)
+            {
+                parent.GetComponent<NavMeshAgent>().destination = player.transform.position;
+                anim.SetBool("walk", true);
+            }
 
             if (Vector3.Distance(transform.position, player.transform.position) < seeDistance)
             {
@@ -46,9 +52,11 @@ public class EnemyBody : MonoBehaviour
             }
         }
 
-        //if (parent.GetComponent<enemy>().isDead)
-           // Destroy(GetComponent<NavMeshAgent>());
-
+        if (parent.GetComponent<enemy>().isDead)
+        {
+            anim.SetBool("walk", false);
+            Destroy(parent.GetComponent<NavMeshAgent>());
+        }
 
 
         if (!parent.GetComponent<enemy>().isDead && Time.time > nextFire)

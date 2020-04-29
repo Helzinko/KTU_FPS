@@ -33,6 +33,8 @@ public class GunScript : MonoBehaviour
 
     public Text bulletCountText;
 
+    public GameObject weaponHolder;
+
     private void Start()
     {
         laserLine = GetComponent<LineRenderer>();
@@ -45,11 +47,11 @@ public class GunScript : MonoBehaviour
     void Update()
     {
         if (Time.time > nextReload && Time.time > nextFire)
-            canSwap = true;
+            weaponHolder.GetComponent<WeaponSwap>().canSwap = true;
 
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire && bulletCount > 0 && Time.time > nextReload)
         {
-            canSwap = false;
+            weaponHolder.GetComponent<WeaponSwap>().canSwap = false;
             bulletCount--;
             nextFire = Time.time + fireRate;
             StartCoroutine(ShotEffect());
@@ -59,7 +61,7 @@ public class GunScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > nextReload)
         {
-            canSwap = false;
+            weaponHolder.GetComponent<WeaponSwap>().canSwap = false;
             Reload();
             nextReload = Time.time + realoadTime;
             bulletCountText.text = bulletCount.ToString();

@@ -7,6 +7,8 @@ public class WeaponSwap : MonoBehaviour
     public GameObject[] weapons;
     public int currentWeapon = 0;
 
+    public bool canSwap = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,7 @@ public class WeaponSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(weapons[0].GetComponent<GunScript>().canSwap == true)
+        if(canSwap)
         {
             int previousWeapon = currentWeapon;
 
