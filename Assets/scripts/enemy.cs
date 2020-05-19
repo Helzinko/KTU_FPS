@@ -10,6 +10,8 @@ public class enemy : MonoBehaviour
 
     Animator anim;
 
+    public GameObject gun;
+
     void Start()
     {
         bodies = GetComponentsInChildren<Rigidbody>();
@@ -19,6 +21,10 @@ public class enemy : MonoBehaviour
 
     public void GotHit()
     {
+        if (isDead)
+            return;
+
+        gun.transform.parent = null;
         anim.enabled = false;
         isDead = true;
         for (int i = 0; i < bodies.Length; i++)

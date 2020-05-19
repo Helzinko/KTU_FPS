@@ -91,7 +91,6 @@ public class GunScript : MonoBehaviour
             if (enemeyHit != null)
             {
                 enemeyHit.GotHit();
-
             }
 
 
