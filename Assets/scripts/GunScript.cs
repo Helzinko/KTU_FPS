@@ -35,6 +35,8 @@ public class GunScript : MonoBehaviour
 
     public GameObject weaponHolder;
 
+    public AudioSource lasterPistolSound;
+
     private void Start()
     {
         laserLine = GetComponent<LineRenderer>();
@@ -72,6 +74,7 @@ public class GunScript : MonoBehaviour
     {
         muzzleFlash.Play();
         m_Animator.SetTrigger("Shoot");
+        lasterPistolSound.Play();
 
         GameObject fireLamp = Instantiate(fireLight, new Vector3(lightPlace.transform.position.x, lightPlace.transform.position.y, lightPlace.transform.position.z), Quaternion.identity);
         Destroy(fireLamp, 0.1f);

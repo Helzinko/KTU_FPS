@@ -6,6 +6,7 @@ TagManager:
   tags:
   - enemy
   - pistolPickup
+  - master
   layers:
   - Default
   - TransparentFX
