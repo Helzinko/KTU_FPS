@@ -41,7 +41,7 @@ public class enemy : MonoBehaviour
         if (isBoss)
         {
             master = GameObject.FindGameObjectWithTag("master");
-            master.GetComponent<MasterScript>().DoSlowmotion();
+            //master.GetComponent<MasterScript>().DoSlowmotion();
             master.GetComponent<MasterScript>().canContinue = true;
             StartCoroutine(WaitAndPrint(master));
         }

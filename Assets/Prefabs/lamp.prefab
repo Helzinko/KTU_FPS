@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 1466676277038488040}
   - component: {fileID: 1466676277038488041}
   - component: {fileID: 1466676277038488038}
-  - component: {fileID: 1466676277038488042}
   m_Layer: 0
   m_Name: lamp
   m_TagString: Untagged
@@ -155,7 +154,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2cdb374577da32e458e98486adde1d44, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,20 +188,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1466676277038488042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466676277038488039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ad800047fbd20469fbd64e46c02ec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  black: {fileID: 2100000, guid: f5c8afe939eb70a4f970c19e403cc56a, type: 2}
-  lamp: {fileID: 1466676276572373828}
 --- !u!1 &1466676277299815857
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f5c8afe939eb70a4f970c19e403cc56a, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -355,7 +340,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f5c8afe939eb70a4f970c19e403cc56a, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
